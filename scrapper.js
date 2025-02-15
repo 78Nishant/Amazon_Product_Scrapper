@@ -50,18 +50,20 @@ const scrapeData = async () => {
             
             // Extracting the product details
             try {
-                let productImage = await product.findElement(By.css('.s-image')).getAttribute('src');
+                let productDesc=await product.findElement(By.css('.s-image'))
+
+                let productImage =await productDesc.getAttribute('src');
                 let productLink = await product.findElement(By.xpath('.//a[contains(@class, "a-link-normal") and contains(@class, "s-no-outline")]')).getAttribute('href');
-                let productTitle=await product.findElement(By.css('.s-image')).getAttribute('alt');
-                // let productTitle = await product.findElement(By.css('.a-size-base-plus a-spacing-none a-color-base a-text-normal')).getText();
-                // let productLink = await productDescription.getAttribute('href');
+                let productTitle=await productDesc.getAttribute('alt');
                 let productPrice = await product.findElement(By.css('.a-price-whole')).getText();
+                
 
                 console.log({
                     title: productTitle,
-                    price: productPrice,
+                    price: `₹${productPrice}`,
                     link: productLink,
-                    image: productImage
+                    image: productImage,
+                  
                 });
             } catch (err) {
                 console.log('Error extracting product:', err);
