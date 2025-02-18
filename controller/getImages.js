@@ -1,7 +1,7 @@
 const express=require('express');
 const { Builder, By, Key, until } = require('selenium-webdriver');
 const chrome = require('selenium-webdriver/chrome');
-const readline = require('readline');
+
 
 const scrapeImages=async(req,res)=>{
     const query=req.body.query;
