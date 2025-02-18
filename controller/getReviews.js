@@ -1,52 +1,12 @@
-const express=require('express');
+const express = require('express');
+
 const { Builder, By, Key, until } = require('selenium-webdriver');
 const chrome = require('selenium-webdriver/chrome');
 const readline = require('readline');
 
-const routes=require('./routes/api.routes');
-
-const app=express();
-app.use(express.json());
-
-const port=3000;
-let productInfo=[];
-// app.get('/',(req,res)=>{
-//     res.json('This is a web scrapper');
-// })
-app.use('/',routes.router);
-app.post('/reviews',async(req,res)=>{
+const scrapeReviews=async(req,res)=>{
     const query=req.body.query;
-    // const query=req.params.query;
-    // res.json('You searched for: '+query);
-    reviewsList=[];
-    await scrapeReviews(query);
-    res.json(reviewsList);
-})
-
-
-
-
-// Take user input
-// const inputQuery = () => {
-//     return new Promise((resolve) => {
-//         const rl = readline.createInterface({
-//             input: process.stdin,
-//             output: process.stdout
-//         });
-//         rl.question('Search here: ', (query) => {
-//             console.log('You searched for: ' + query);
-//             rl.close();
-//             resolve(query);
-//         });
-//     });
-// };
-
-
-
-
-//To get Reviews of a Product
-const scrapeReviews=async(query)=>{
-    
+    let reviewsList=[];
     let options = new chrome.Options();
     options.addArguments('user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36');
     options.addArguments('--ignore-certificate-errors');  // Bypass SSL errors
@@ -58,8 +18,6 @@ const scrapeReviews=async(query)=>{
    
     try{
         await driver.get(query)
-
-    
 
     await driver.wait(until.elementLocated(By.css('.review.aok-relative')), 10000);
     const reviews = await driver.findElements(By.css('.review.aok-relative'));
@@ -86,15 +44,11 @@ const scrapeReviews=async(query)=>{
       }
     }
     console.log(reviewsList);
+    res.json(reviewsList);
   } catch (error) {
     console.error('Error:', error);
   } finally {
     await driver.quit();
   }
 };
-
-// scrapeData();
-
-app.listen(port,()=>{
-    console.log('Server is running on port '+port);
-})
+exports.scrapeReviews=scrapeReviews;
