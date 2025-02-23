@@ -23,14 +23,14 @@ const scrapeData = async (req,res) => {
         await driver.get('https://www.amazon.in/');
 
         // Wait for the search bar to be present
-        await driver.wait(until.elementLocated(By.id('twotabsearchtextbox')), 10000);
+        await driver.wait(until.elementLocated(By.id('twotabsearchtextbox')), 20000);
 
         // Finding the search bar and typing the search query
         let searchBar = await driver.findElement(By.id('twotabsearchtextbox'));
         await searchBar.sendKeys(query, Key.RETURN);
 
         // Wait for the product list to load
-        await driver.wait(until.elementLocated(By.css('.s-main-slot .s-result-item')), 15000);
+        await driver.wait(until.elementLocated(By.css('.s-main-slot .s-result-item')), 20000);
 
         // Get the list of products
         let productList = await driver.findElements(By.css('.s-main-slot .s-result-item'));
