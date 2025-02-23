@@ -9,6 +9,9 @@ const scrapeImages=async(req,res)=>{
     let options = new chrome.Options();
         options.addArguments('user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36');
         options.addArguments('--ignore-certificate-errors');  // Bypass SSL errors
+        options.addArguments('--headless');
+        options.addArguments("--no-sandbox")
+        options.addArguments("--disable-dev-shm-usage")
 
     let driver=await new Builder().forBrowser('chrome').setChromeOptions(options).build();
 
@@ -41,7 +44,7 @@ const scrapeImages=async(req,res)=>{
             promotion:promotionImages,
             reviews:reviewImages,
         }
-        console.log(imagesList);
+        // console.log(imagesList);
         res.json(imagesList);
 
     }catch(error){

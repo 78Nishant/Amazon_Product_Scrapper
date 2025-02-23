@@ -9,6 +9,9 @@ const scrapeDescription=async(req,res)=>{
 
     options.addArguments('user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36');
     options.addArguments('--ignore-certificate-errors');  // Bypass SSL errors
+    options.addArguments('--headless')
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
 
     const driver=await new Builder().forBrowser('chrome').setChromeOptions(options).build();
 
@@ -22,7 +25,7 @@ const scrapeDescription=async(req,res)=>{
             let point=await description.getText()
             productDescription.push(point)
         }
-        console.log(productDescription)
+        // console.log(productDescription)
         res.json(productDescription)
 
     }catch(error){

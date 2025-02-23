@@ -12,6 +12,8 @@ const scrapeData = async (req,res) => {
     options.addArguments('user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36');
     options.addArguments('--ignore-certificate-errors');  // Bypass SSL errors
     options.addArguments('--headless');
+    options.addArguments("--no-sandbox")
+    options.addArguments("--disable-dev-shm-usage")
 
     let driver = await new Builder().forBrowser('chrome').setChromeOptions(options).build();
     // await driver.sleep(5000);
@@ -55,7 +57,7 @@ const scrapeData = async (req,res) => {
                     image: productImage,
                     //rating: productRating
                 });
-                console.log(products)
+                // console.log(products)
                 searchProduct.push(products);
             } catch (err) {
                 console.log('Error extracting product:', err);
